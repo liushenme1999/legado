@@ -408,6 +408,11 @@ class ReadMangaActivity : VMBaseActivity<ActivityMangaBinding, ReadMangaViewMode
         syncDialog?.dismiss()
         syncDialog = alert(R.string.get_book_progress) {
             setMessage(R.string.cloud_progress_exceeds_current)
+            neutralButton(R.string.cover_book_progress) {
+                ReadManga.uploadProgress {
+                    toastOnUi(R.string.upload_book_success)
+                }
+            }
             okButton {
                 ReadManga.setProgress(progress)
             }

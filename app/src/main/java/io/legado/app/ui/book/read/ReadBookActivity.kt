@@ -1582,6 +1582,11 @@ class ReadBookActivity : BaseReadBookActivity(),
         syncDialog?.dismiss()
         syncDialog = alert(R.string.get_book_progress) {
             setMessage(R.string.cloud_progress_exceeds_current)
+            neutralButton(R.string.cover_book_progress) {
+                ReadBook.uploadProgress(true) {
+                    toastOnUi(R.string.upload_book_success)
+                }
+            }
             okButton {
                 ReadBook.setProgress(progress)
             }
