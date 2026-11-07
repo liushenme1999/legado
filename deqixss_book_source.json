@@ -1,0 +1,39 @@
+[
+  {
+    "bookSourceName": "得奇小说网",
+    "bookSourceGroup": "自建",
+    "bookSourceType": 0,
+    "bookSourceUrl": "https://www.deqixss.com",
+    "bookUrlPattern": "https://www\\.deqixss\\.com/books/\\d+/?$",
+    "customOrder": 0,
+    "enabled": true,
+    "enabledExplore": false,
+    "enabledCookieJar": true,
+    "header": "{\"User-Agent\":\"Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0 Mobile Safari/537.36\",\"Referer\":\"https://www.deqixss.com/\"}",
+    "bookSourceComment": "支持搜索、详情、目录和正文。依据得奇小说网 2026-11-03 的页面结构制作。",
+    "searchUrl": "https://www.deqixss.com/modules/article/search.php?searchkey={{key}}&action=login&searchtype=all",
+    "ruleSearch": {
+      "bookList": ".bookbox",
+      "name": ".bookname a@text",
+      "author": ".author@text@js:result.replace(/^\\s*作者：\\s*/, '')",
+      "intro": ".update@text@js:result.replace(/^\\s*简介：\\s*/, '')",
+      "lastChapter": ".cat a@text",
+      "bookUrl": ".bookname a@href"
+    },
+    "ruleBookInfo": {
+      "name": ".booktitle@text",
+      "author": ".booktag a.red@text",
+      "intro": ".bookintro@text",
+      "coverUrl": ".bookcover img@src",
+      "lastChapter": ".bookchapter@text"
+    },
+    "ruleToc": {
+      "chapterList": "#list-chapterAll dd",
+      "chapterName": "a@text",
+      "chapterUrl": "a@href"
+    },
+    "ruleContent": {
+      "content": "@js:var m = baseUrl.match(/\\/books\\/(\\d+)\\/(\\d+)\\.html/); var content = ''; if (m) { var aid = m[1]; var cid = m[2]; var chapterUrl = 'https://www.deqixss.com/books/' + aid + '/' + cid + '.html'; var tokenHeaders = JSON.stringify({'Referer': chapterUrl}); var apiHeaders = JSON.stringify({'Referer': chapterUrl, 'X-Requested-With': 'XMLHttpRequest', 'Accept': 'text/plain, */*; q=0.01'}); var scriptUrl = 'https://www.deqixss.com/scripts/chapter.js.php?aid=' + aid + '&cid=' + cid + '&referrer=' + chapterUrl; var script = java.connect(scriptUrl, tokenHeaders).body(); var token = script.match(/chapterToken\\s*=\\s*'([^']+)'/); var timestamp = script.match(/timestamp\\s*=\\s*(\\d+)/); var nonce = script.match(/nonce\\s*=\\s*'([^']+)'/); if (token && timestamp && nonce) { var apiUrl = 'https://www.deqixss.com/modules/article/ajax2.php?aid=' + aid + '&cid=' + cid + '&token=' + token[1] + '&timestamp=' + timestamp[1] + '&nonce=' + nonce[1]; var data = JSON.parse(java.connect(apiUrl, apiHeaders).body()); if (data.status === 1 && data.data && data.data.content) { content = data.data.content; } } } content"
+    }
+  }
+]
