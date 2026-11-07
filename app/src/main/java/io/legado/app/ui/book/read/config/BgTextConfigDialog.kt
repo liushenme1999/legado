@@ -33,7 +33,9 @@ import io.legado.app.lib.theme.bottomBackground
 import io.legado.app.lib.theme.getPrimaryTextColor
 import io.legado.app.lib.theme.getSecondaryTextColor
 import io.legado.app.model.ReadBook
+import io.legado.app.ui.book.read.BaseReadBookActivity
 import io.legado.app.ui.book.read.ReadBookActivity
+import io.legado.app.ui.book.read.md.MdReadActivity
 import io.legado.app.ui.file.HandleFileContract
 import io.legado.app.ui.widget.seekbar.SeekBarChangeListener
 import io.legado.app.utils.ColorUtils
@@ -114,7 +116,10 @@ class BgTextConfigDialog : BaseDialogFragment(R.layout.dialog_read_bg_text) {
     }
 
     override fun onFragmentCreated(view: View, savedInstanceState: Bundle?) {
-        (activity as ReadBookActivity).bottomDialog++
+        val host = activity
+        if (host is BaseReadBookActivity) {
+            host.bottomDialog++
+        }
         initView()
         initData()
         initEvent()
@@ -123,7 +128,10 @@ class BgTextConfigDialog : BaseDialogFragment(R.layout.dialog_read_bg_text) {
     override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         ReadBookConfig.save()
-        (activity as ReadBookActivity).bottomDialog--
+        val host = activity
+        if (host is BaseReadBookActivity) {
+            host.bottomDialog--
+        }
     }
 
     private fun initView() = binding.run {
@@ -202,7 +210,11 @@ class BgTextConfigDialog : BaseDialogFragment(R.layout.dialog_read_bg_text) {
         }
         binding.swDarkStatusIcon.setOnCheckedChangeListener { _, isChecked ->
             setCurStatusIconDark(isChecked)
-            (activity as? ReadBookActivity)?.upSystemUiVisibility()
+            when (val host = activity) {
+                is ReadBookActivity -> host.upSystemUiVisibility()
+                is MdReadActivity -> host.syncSystemUiFromReadConfigDialog()
+                else -> Unit
+            }
         }
         binding.swUnderline.setOnCheckedChangeListener { _, isChecked ->
             underline = isChecked

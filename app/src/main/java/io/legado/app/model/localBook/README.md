@@ -6,3 +6,5 @@
 * EpubFile.kt 解析epub
 * PdfFile.kt 解析pdf 纯图片形式
 * UmdFile.kt 解析umd
+* MobiFile.kt 解析mobi / azw / azw3
+* MdFile.kt 解析markdown(.md / .markdown), 按 ATX 标题(#)切分目录

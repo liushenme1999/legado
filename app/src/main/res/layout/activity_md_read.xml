@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context=".ui.book.read.md.MdReadActivity">
+
+    <!--内容区 (放在最底, 与 titleBar / bottomMenu 重叠以便菜单浮动显隐)-->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:id="@+id/content_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp"
+                android:paddingTop="?attr/actionBarSize"
+                android:paddingBottom="140dp">
+
+                <TextView
+                    android:id="@+id/tv_chapter_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="14dp"
+                    android:textColor="@color/primaryText"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lineSpacingMultiplier="1.4"
+                    android:textColor="@color/primaryText"
+                    android:textColorLink="?attr/colorAccent"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!--顶部标题栏 (浮于内容之上, 可被滚动/点击切换显隐)-->
+    <io.legado.app.ui.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="?attr/actionBarStyle"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!--悬浮夜间/日间模式按钮 (与 ReadBookActivity 的 fabNightTheme 样式一致)-->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_night_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/dark_theme"
+        android:src="@drawable/ic_brightness"
+        android:tint="@color/primaryText"
+        android:tooltipText="@string/dark_theme"
+        app:backgroundTint="@color/background_menu"
+        app:elevation="2dp"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_menu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:pressedTranslationZ="2dp"
+        tools:ignore="UnusedAttribute" />
+
+    <!--底部功能栏 (对齐 ReadBookActivity 的 view_read_menu 样式)-->
+    <LinearLayout
+        android:id="@+id/bottom_menu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background_menu"
+        android:importantForAccessibility="no"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!--第一行: 上一章 / 章节进度 / 下一章-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="5dp"
+            android:importantForAccessibility="no"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_pre"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:enabled="false"
+                android:focusable="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/previous_chapter"
+                android:textColor="@color/primaryText"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <io.legado.app.lib.theme.view.ThemeSeekBar
+                android:id="@+id/seek_chapter"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:enabled="false"
+                android:focusable="true"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="@string/next_chapter"
+                android:textColor="@color/primaryText"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+        <!--第二行: 目录 / 主题 / 刷新-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:importantForAccessibility="no"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:importantForAccessibility="no" />
+
+            <!--目录按钮-->
+            <LinearLayout
+                android:id="@+id/ll_catalog"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/chapter_list"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingBottom="7dp"
+                tools:ignore="VisualLintBounds">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_catalog"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/chapter_list"
+                    android:maxHeight="20dp"
+                    android:src="@drawable/ic_toc"
+                    app:tint="@color/primaryText"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/tv_catalog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="@string/chapter_list"
+                    android:textColor="@color/primaryText"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:importantForAccessibility="no" />
+
+            <!--界面设置 (文字颜色 / 背景)-->
+            <LinearLayout
+                android:id="@+id/ll_interface"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/interface_setting"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingBottom="7dp"
+                tools:ignore="VisualLintBounds">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/interface_setting"
+                    android:maxHeight="20dp"
+                    android:src="@drawable/ic_interface_setting"
+                    app:tint="@color/primaryText"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="@string/interface_setting"
+                    android:textColor="@color/primaryText"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:importantForAccessibility="no" />
+
+            <!--刷新目录-->
+            <LinearLayout
+                android:id="@+id/ll_refresh"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:contentDescription="@string/refresh"
+                android:focusable="true"
+                android:orientation="vertical"
+                android:paddingBottom="7dp"
+                tools:ignore="VisualLintBounds">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/refresh"
+                    android:maxHeight="20dp"
+                    android:src="@drawable/ic_refresh_black_24dp"
+                    app:tint="@color/primaryText"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="3dp"
+                    android:ellipsize="middle"
+                    android:singleLine="true"
+                    android:text="@string/refresh"
+                    android:textColor="@color/primaryText"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:importantForAccessibility="no" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

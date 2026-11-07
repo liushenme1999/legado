@@ -160,6 +160,11 @@
         <activity
             android:name="io.legado.app.ui.book.audio.AudioPlayActivity"
             android:launchMode="singleTask" />
+        <!-- Markdown 阅读界面 -->
+        <activity
+            android:name="io.legado.app.ui.book.read.md.MdReadActivity"
+            android:configChanges="locale|keyboardHidden|orientation|screenSize|smallestScreenSize|screenLayout"
+            android:launchMode="singleTask" />
         <!-- 授权界面 -->
         <activity
             android:name="io.legado.app.lib.permission.PermissionActivity"

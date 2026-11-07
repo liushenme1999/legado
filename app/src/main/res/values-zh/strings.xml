@@ -166,6 +166,8 @@
     <string name="can_not_open">无法打开</string>
     <string name="can_not_share">分享失败</string>
     <string name="no_chapter">无章节</string>
+    <string name="no_prev_chapter">已经是第一章了</string>
+    <string name="no_next_chapter">已经是最后一章了</string>
     <string name="add_url">添加网址</string>
     <string name="add_book_url">添加书籍网址</string>
     <string name="background">背景</string>

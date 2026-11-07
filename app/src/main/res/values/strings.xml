@@ -167,6 +167,8 @@
     <string name="can_not_open">Open failed</string>
     <string name="can_not_share">Share failed</string>
     <string name="no_chapter">No chapters</string>
+    <string name="no_prev_chapter">Already at the first chapter</string>
+    <string name="no_next_chapter">Already at the last chapter</string>
     <string name="add_url">Add url</string>
     <string name="add_book_url">Add book url</string>
     <string name="background">Background</string>

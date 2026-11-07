@@ -11,10 +11,12 @@ import io.legado.app.data.entities.BookSource
 import io.legado.app.exception.NoStackTraceException
 import io.legado.app.help.book.BookHelp
 import io.legado.app.help.book.isEpub
+import io.legado.app.help.book.isMd
 import io.legado.app.help.book.isMobi
 import io.legado.app.help.book.isPdf
 import io.legado.app.help.config.AppConfig
 import io.legado.app.model.localBook.EpubFile
+import io.legado.app.model.localBook.MdFile
 import io.legado.app.model.localBook.MobiFile
 import io.legado.app.model.localBook.PdfFile
 import io.legado.app.utils.BitmapUtils
@@ -133,6 +135,11 @@ object ImageProvider {
                     book.isEpub -> EpubFile.getImage(book, src)
                     book.isPdf -> PdfFile.getImage(book, src)
                     book.isMobi -> MobiFile.getImage(book, src)
+                    book.isMd -> MdFile.getImage(book, src) ?: run {
+                        // 本地解析不到 / 是网络图片时,沿用通用下载逻辑
+                        BookHelp.saveImage(bookSource, book, src)
+                        null
+                    }
                     else -> {
                         BookHelp.saveImage(bookSource, book, src)
                         null
